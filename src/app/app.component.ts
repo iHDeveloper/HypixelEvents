@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { TimelineManager } from './timeline';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,13 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('frame', { static: false }) frame: ElementRef;
   context: CanvasRenderingContext2D;
 
+  constructor(
+    private timelineManager: TimelineManager
+  ) { }
+
   ngAfterViewInit() {
     this.context = (this.frame.nativeElement as HTMLCanvasElement).getContext('2d');
-    this.render();
+    this.timelineManager.init(this.render.bind(this));
   }
 
   render() {
