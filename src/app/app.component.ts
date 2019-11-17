@@ -34,6 +34,7 @@ export class AppComponent implements AfterViewInit {
     this.context.beginPath();
     this.context.arc(width / 2, height + height / 2, width / 2, Math.PI, 0);
     this.context.fill();
+
     // Clear the half inside circle
     this.context.beginPath();
     this.context.arc(width / 2, height + height / 2, width / 2 - thick, Math.PI, 0);
