@@ -17,7 +17,7 @@ export class TimelineManager {
         // Events seed for testing.
         // TODO remove after testing
         this.events = [];
-        for (let mins = 0; mins < 60; mins++) {
+        for (let mins = 1; mins <= 120; mins++) {
             this.events.push({
                 date: moment().add(mins, 'minutes').toDate(),
                 name: `Event +${mins}m`
