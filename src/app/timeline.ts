@@ -21,10 +21,7 @@ export class TimelineManager {
         this.updater = new Subject<void>();
         interval(100).pipe(takeUntil(this.updater)).subscribe(() => this.render());
         this.rendererManager.reset();
-        this.rendererManager.add({ angle: 0 });
-        this.rendererManager.add({ angle: 45 });
-        this.rendererManager.add({ angle: 90 });
-        this.rendererManager.add({ angle: 180 });
+        this.rendererManager.add({ angle: 140, name: 'Test Event' });
         this.render();
     }
 

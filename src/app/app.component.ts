@@ -66,6 +66,8 @@ export class AppComponent implements AfterViewInit, RendererManager {
     this.context.restore();
 
     for (const event of this.events) {
+
+      // Render the point
       let angle: number = event.angle;
       if (angle < 0 || angle > 180) {
         console.error('Failed to render point: Out of bounds');
@@ -74,11 +76,29 @@ export class AppComponent implements AfterViewInit, RendererManager {
       angle = (angle * -Math.PI) / 180;
       const x = origin.x + ((radius - thick / 2) * Math.cos(angle));
       const y = origin.y + ((radius - thick / 2) * Math.sin(angle));
+      const pointRadius = 7;
       this.context.beginPath();
-      this.context.arc(x, y, 7, 0, 2 * Math.PI);
+      this.context.arc(x, y, pointRadius, 0, 2 * Math.PI);
       this.context.fill();
+
+      // Render the text
+      const nameRadius = pointRadius + 20;
+      const nameAngle = 45;
+      // TODO this needs to be more realistic
+      this.renderEventInfoName(this.context, event.name, nameRadius, nameAngle, { x: x, y: y });
+
     }
 
+  }
+
+  private renderEventInfoName(context: CanvasRenderingContext2D, name: string, radius: number, angle: number, origin: Point) {
+    angle = (angle * -Math.PI) / 180;
+    const x = origin.x + (radius * Math.cos(angle));
+    const y = origin.y + (radius * Math.sin(angle));
+    this.context.save();
+    this.context.font = '25px Arial';
+    this.context.fillText(name, x, y);
+    this.context.restore();
   }
 
   private updateSize(nativeElement: HTMLCanvasElement) {
