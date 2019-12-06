@@ -65,6 +65,18 @@ export class AppComponent implements AfterViewInit, RendererManager {
     // Restore the context state
     this.context.restore();
 
+    // Render the line that represents the now time
+    const renderNowLine = (angle = 90, length = 10) => {
+      angle = (angle * -Math.PI) / 180;
+      const x = origin.x + ((radius - thick / 2) * Math.cos(angle));
+      const y = origin.y + ((radius - thick / 2) * Math.sin(angle));
+      this.context.beginPath();
+      this.context.moveTo(x, y + length);
+      this.context.lineTo(x, y - length);
+      this.context.stroke();
+    };
+    renderNowLine();
+
     for (const event of this.events) {
 
       // Render the point
@@ -84,7 +96,6 @@ export class AppComponent implements AfterViewInit, RendererManager {
       // Render the text
       const nameRadius = pointRadius + ((120 * event.angle) / 180);
       const nameAngle = event.angle;
-      // TODO this needs to be more realistic
       this.renderEventInfoName(this.context, event.name, nameRadius, nameAngle, { x: x, y: y });
 
     }
