@@ -34,8 +34,8 @@ export class AppComponent implements AfterViewInit, RendererManager {
     this.events = [];
   }
 
-  add(point: EventRenderInfo) {
-    this.events.push(point);
+  add(event: EventRenderInfo) {
+    this.events.push(event);
   }
 
   render() {
