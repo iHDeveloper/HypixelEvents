@@ -9,6 +9,10 @@ import * as moment from 'moment';
     providedIn: 'root'
 })
 export class TimelineManager {
+
+    // Range View of the timeline ( in seconds )
+    public range = 5 * 60;
+
     events: Event[];
     updater: Subject<void>;
     angle = 0;
@@ -40,11 +44,11 @@ export class TimelineManager {
     }
 
     private render() {
-        const TIME_DIFF = 300000;
+        const TIME_DIFF = this.range * 1000;
         this.rendererManager.reset();
         const now = moment();
-        const from = moment().subtract(5, 'minutes');
-        const to = moment().add(5, 'minutes');
+        const from = moment().subtract(this.range, 'seconds');
+        const to = moment().add(this.range, 'seconds');
         for (const event of this.events) {
             const date = moment(event.date);
             if (!date.isBetween(from, to)) {
