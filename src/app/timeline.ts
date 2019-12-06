@@ -5,6 +5,9 @@ import { RendererManager } from './render';
 import { Event } from './event';
 import * as moment from 'moment';
 
+/**
+ * Manages the render process and information of the events.
+ */
 @Injectable({
     providedIn: 'root'
 })
@@ -13,9 +16,9 @@ export class TimelineManager {
     // Range View of the timeline ( in seconds )
     public range = 5 * 60;
 
-    events: Event[];
+    // Render updater
     updater: Subject<void>;
-    angle = 0;
+    events: Event[];
 
     constructor() {
         // Events seed for testing.
@@ -31,6 +34,9 @@ export class TimelineManager {
 
     private rendererManager: RendererManager;
 
+    /**
+     * Initialize the render updater and the manager.
+     */
     public init(rendererManager: RendererManager): void {
         this.rendererManager = rendererManager;
         if (this.updater !== undefined) {
@@ -43,6 +49,9 @@ export class TimelineManager {
         this.render();
     }
 
+    /**
+     * Passing information to the render manager before renders it.
+     */
     private render() {
         const TIME_DIFF = this.range * 1000;
         this.rendererManager.reset();
@@ -75,6 +84,11 @@ export class TimelineManager {
         this.rendererManager.render();
     }
 
+    /**
+     * Gets the format of countdown by passing duration.
+     *
+     * @param duration Duration of the difference
+     */
     private countdownFormat(duration: moment.Duration) {
         const h = duration.hours();
         const m = duration.minutes();
