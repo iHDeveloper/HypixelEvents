@@ -17,9 +17,7 @@ export class TimelineManager {
         // Events seed for testing.
         // TODO remove after testing
         this.events = [];
-        const add = [1, 2, 3, 5, 7, 10, 12, 15, 17, 25, 30, 45, 60, 75];
-        // const add = [30];
-        for (const mins of add) {
+        for (let mins = 0; mins < 60; mins++) {
             this.events.push({
                 date: moment().add(mins, 'minutes').toDate(),
                 name: `Event +${mins}m`
