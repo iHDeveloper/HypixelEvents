@@ -55,6 +55,7 @@ export class TimelineManager {
                 this.rendererManager.add({
                     name: event.name,
                     angle: (90 * toDiff) / TIME_DIFF,
+                    info: `T - ${this.countdownFormat(moment.duration(date.diff(now)))}`,
                     fill: false
                 });
                 continue;
@@ -63,10 +64,18 @@ export class TimelineManager {
             this.rendererManager.add({
                 name: event.name,
                 angle: 90 + ((90 * nowDiff) / TIME_DIFF),
+                info: `T + ${this.countdownFormat(moment.duration(now.diff(date)))}`,
                 fill: true
             });
         }
         this.rendererManager.render();
+    }
+
+    private countdownFormat(duration: moment.Duration) {
+        const h = duration.hours();
+        const m = duration.minutes();
+        const s = duration.seconds();
+        return `${h <= 9 ? '0' + h : h}:${m <= 9 ? '0' + m : m}:${s <= 9 ? '0' + s : s}`;
     }
 
 }
