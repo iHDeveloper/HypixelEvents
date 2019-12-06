@@ -54,14 +54,16 @@ export class TimelineManager {
                 const toDiff = to.valueOf() - date.valueOf();
                 this.rendererManager.add({
                     name: event.name,
-                    angle: (90 * toDiff) / TIME_DIFF
+                    angle: (90 * toDiff) / TIME_DIFF,
+                    fill: false
                 });
                 continue;
             }
             const nowDiff = now.valueOf() - date.valueOf();
             this.rendererManager.add({
                 name: event.name,
-                angle: 90 + ((90 * nowDiff) / TIME_DIFF)
+                angle: 90 + ((90 * nowDiff) / TIME_DIFF),
+                fill: true
             });
         }
         this.rendererManager.render();

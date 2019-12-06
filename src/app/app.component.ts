@@ -98,6 +98,17 @@ export class AppComponent implements AfterViewInit, RendererManager {
       const nameAngle = event.angle;
       this.renderEventInfoName(this.context, event.name, nameRadius, nameAngle, { x: x, y: y });
 
+      // Clear the fill rect and continue
+      if (event.fill) {
+        continue;
+      }
+      const pointThick = 1;
+      this.context.save();
+      this.context.beginPath();
+      this.context.arc(x, y, pointRadius - pointThick, 0, 2 * Math.PI);
+      this.context.clip();
+      this.context.clearRect(x - 100, y - 100, x + 100, y + 100);
+      this.context.restore();
     }
 
   }
