@@ -99,15 +99,27 @@ export class AppComponent implements AfterViewInit, RendererManager {
       this.renderEventInfoName(this.context, event.name, nameRadius, nameAngle, { x: x, y: y });
 
       // Clear the fill rect and continue
-      if (event.fill) {
-        continue;
+      if (!event.fill) {
+        const pointThick = 1;
+        this.context.save();
+        this.context.beginPath();
+        this.context.arc(x, y, pointRadius - pointThick, 0, 2 * Math.PI);
+        this.context.clip();
+        this.context.clearRect(x - 100, y - 100, x + 100, y + 100);
+        this.context.restore();
       }
-      const pointThick = 1;
+
+      // Draw rect in the middle of the event circle
+      const middlePointRadius = 2;
       this.context.save();
+      if (event.fill) {
+        this.context.fillStyle = '#ffffff';
+      } else {
+        this.context.fillStyle = '#000000';
+      }
       this.context.beginPath();
-      this.context.arc(x, y, pointRadius - pointThick, 0, 2 * Math.PI);
-      this.context.clip();
-      this.context.clearRect(x - 100, y - 100, x + 100, y + 100);
+      this.context.arc(x, y, middlePointRadius, 0, 2 * Math.PI);
+      this.context.fill();
       this.context.restore();
     }
 
