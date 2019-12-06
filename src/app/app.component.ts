@@ -9,7 +9,7 @@ import { RendererManager, EventRenderInfo, Point } from './render';
 })
 export class AppComponent implements AfterViewInit, RendererManager {
   title = 'frontend';
-  points: EventRenderInfo[];
+  events: EventRenderInfo[];
 
   @ViewChild('frame', { static: false }) frame: ElementRef;
   context: CanvasRenderingContext2D;
@@ -31,11 +31,11 @@ export class AppComponent implements AfterViewInit, RendererManager {
   }
 
   reset() {
-    this.points = [];
+    this.events = [];
   }
 
   add(point: EventRenderInfo) {
-    this.points.push(point);
+    this.events.push(point);
   }
 
   render() {
@@ -65,8 +65,8 @@ export class AppComponent implements AfterViewInit, RendererManager {
     // Restore the context state
     this.context.restore();
 
-    for (const point of this.points) {
-      let angle: number = point.angle;
+    for (const event of this.events) {
+      let angle: number = event.angle;
       if (angle < 0 || angle > 180) {
         console.error('Failed to render point: Out of bounds');
         continue;
