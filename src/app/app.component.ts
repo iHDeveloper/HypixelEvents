@@ -25,19 +25,31 @@ export class AppComponent implements AfterViewInit, RendererManager {
     this.updateSize(nativeElement);
   }
 
+  /**
+   * Update the size of the canvas when the window changes.
+   */
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.updateSize(this.frame.nativeElement as HTMLCanvasElement);
   }
 
+  /**
+   * Reset the events render information.
+   */
   reset() {
     this.events = [];
   }
 
+  /**
+   * Add the event to renders it.
+   */
   add(event: EventRenderInfo) {
     this.events.push(event);
   }
 
+  /**
+   * Renders the information of the events.
+   */
   render() {
     const nativeElement = this.frame.nativeElement as HTMLCanvasElement;
     const width = nativeElement.width;
@@ -137,6 +149,9 @@ export class AppComponent implements AfterViewInit, RendererManager {
     this.context.restore();
   }
 
+  /**
+   * Update the size of the canvas.
+   */
   private updateSize(nativeElement: HTMLCanvasElement) {
     nativeElement.width = window.innerWidth;
     nativeElement.height = window.innerHeight;
