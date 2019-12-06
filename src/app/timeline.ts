@@ -9,6 +9,7 @@ import { RendererManager } from './render';
 export class TimelineManager {
     events: Event[];
     updater: Subject<void>;
+    angle = 0;
 
     private rendererManager: RendererManager;
 
@@ -21,7 +22,6 @@ export class TimelineManager {
         this.updater = new Subject<void>();
         interval(100).pipe(takeUntil(this.updater)).subscribe(() => this.render());
         this.rendererManager.reset();
-        this.rendererManager.add({ angle: 140, name: 'Test Event' });
         this.render();
     }
 

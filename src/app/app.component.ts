@@ -82,8 +82,8 @@ export class AppComponent implements AfterViewInit, RendererManager {
       this.context.fill();
 
       // Render the text
-      const nameRadius = pointRadius + 20;
-      const nameAngle = 45;
+      const nameRadius = pointRadius + ((120 * event.angle) / 180);
+      const nameAngle = event.angle;
       // TODO this needs to be more realistic
       this.renderEventInfoName(this.context, event.name, nameRadius, nameAngle, { x: x, y: y });
 
