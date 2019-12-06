@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import { TimelineManager } from './timeline';
-import { RendererManager, CirclePoint, Point } from './render';
+import { RendererManager, EventRenderInfo, Point } from './render';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import { RendererManager, CirclePoint, Point } from './render';
 })
 export class AppComponent implements AfterViewInit, RendererManager {
   title = 'frontend';
-  points: CirclePoint[];
+  points: EventRenderInfo[];
 
   @ViewChild('frame', { static: false }) frame: ElementRef;
   context: CanvasRenderingContext2D;
@@ -34,7 +34,7 @@ export class AppComponent implements AfterViewInit, RendererManager {
     this.points = [];
   }
 
-  add(point: CirclePoint) {
+  add(point: EventRenderInfo) {
     this.points.push(point);
   }
 

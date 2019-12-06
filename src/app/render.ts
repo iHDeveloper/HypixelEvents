@@ -1,9 +1,14 @@
 export interface RendererManager {
-    add(point: Point): void;
+    add(point: EventRenderInfo): void;
     reset(): void;
     render(): void;
 }
 
-export interface Point {
+export interface EventRenderInfo {
     angle: number;
+}
+
+export interface Point {
+    x: number;
+    y: number;
 }
