@@ -108,7 +108,15 @@ export class AppComponent implements AfterViewInit, RendererManager {
       // Render the text
       const nameRadius = pointRadius + ((120 * event.angle) / 180);
       const nameAngle = event.angle;
-      this.renderEventInfoName(this.context, event.title, event.tag, event.info, nameRadius, nameAngle, { x: x, y: y });
+      const eventPoint = this.calculateEventPoint({ x: x, y: y}, nameRadius, nameAngle);
+      this.context.save();
+
+      this.printName(eventPoint, event.name);
+      this.printTag(eventPoint, event.tag);
+      this.printInfo(eventPoint, event.info);
+      this.printColor(eventPoint, event.color);
+
+      this.context.restore();
 
       // Clear the fill rect and continue
       if (!event.fill) {
@@ -137,21 +145,35 @@ export class AppComponent implements AfterViewInit, RendererManager {
 
   }
 
-  private renderEventInfoName(context: CanvasRenderingContext2D, title: string, tag: string, info: string, radius: number, angle: number, origin: Point) {
+  private calculateEventPoint(origin: Point, radius: number, angle: number): Point {
     angle = (angle * -Math.PI) / 180;
-    const x = origin.x + (radius * Math.cos(angle));
-    const y = origin.y + (radius * Math.sin(angle));
-    this.context.save();
-    this.context.font = "15px Arial";
-    this.context.fillStyle = "gray";
-    this.context.fillText(tag, x, y - 25);
+    return {
+      x: origin.x + (radius * Math.cos(angle)),
+      y: origin.y + (radius * Math.sin(angle))
+    }
+  }
+
+  private printName(point: Point, name: string) {
     this.context.font = '25px Arial';
     this.context.fillStyle = "black";
-    this.context.fillText(title, x, y);
+    this.context.fillText(name, point.x, point.y);
+  }
+
+  private printTag(point: Point, tag: string) {
+    this.context.font = "15px Arial";
+    this.context.fillStyle = "gray";
+    this.context.fillText(tag, point.x, point.y - 25);
+  }
+
+  private printInfo(point: Point, info: string) {
     this.context.font = '20px Arial';
     this.context.fillStyle = "gray";
-    this.context.fillText(info, x, y + 25);
-    this.context.restore();
+    this.context.fillText(info, point.x, point.y + 25);
+  }
+
+  private printColor(point: Point, color: string) {
+    this.context.fillStyle = color;
+    this.context.fillRect(point.x - 15, point.y - 30, 5, 50);
   }
 
   /**

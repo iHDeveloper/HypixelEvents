@@ -27,7 +27,8 @@ export class TimelineManager {
         for (let mins = 3; mins <= 120; mins++) {
             this.events.push({
                 date: moment().add(mins, 'minutes').toDate(),
-                title: `Event +${mins}m`,
+                name: `Event +${mins}m`,
+                color: "gray",
                 tag: 'Hypixel'
             });
         }
@@ -75,8 +76,9 @@ export class TimelineManager {
             if (date.isBetween(now, to)) {
                 const toDiff = to.valueOf() - date.valueOf();
                 this.rendererManager.add({
-                    title: event.title,
+                    name: event.name,
                     tag: event.tag,
+                    color: event.color,
                     angle: (90 * toDiff) / TIME_DIFF,
                     info: `T - ${this.countdownFormat(moment.duration(date.diff(now)))}`,
                     fill: false
@@ -85,8 +87,9 @@ export class TimelineManager {
             }
             const nowDiff = now.valueOf() - date.valueOf();
             this.rendererManager.add({
-                title: event.title,
+                name: event.name,
                 tag: event.tag,
+                color: event.color,
                 angle: 90 + ((90 * nowDiff) / TIME_DIFF),
                 info: `T + ${this.countdownFormat(moment.duration(now.diff(date)))}`,
                 fill: true
@@ -110,15 +113,17 @@ export class TimelineManager {
     private addDurationEvent(event: DurationEvent) {
         // Add start event
         this.events.push({
-            title: `[Start] ${event.name}`,
+            name: `[Start] ${event.name}`,
             tag: event.tag,
+            color: "green",
             date: event.startDate
         });
 
         // Add end event
         this.events.push({
-            title: `[End] ${event.name}`,
+            name: `[End] ${event.name}`,
             tag: event.tag,
+            color: "red",
             date: event.endDate
         });
     }

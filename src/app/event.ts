@@ -1,6 +1,7 @@
 export interface Event {
-    title: string;
+    name: string;
     tag: string;
+    color: string;
     date: Date;
 }
 

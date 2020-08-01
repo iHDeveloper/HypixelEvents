@@ -5,9 +5,13 @@ export interface RendererManager {
 }
 
 export interface EventRenderInfo {
-    angle: number;
-    title: string;
+    // Event information
+    name: string;
     tag: string;
+    color: string;
+
+    // Render information
+    angle: number;
     info: string;
     fill: boolean;
 }
