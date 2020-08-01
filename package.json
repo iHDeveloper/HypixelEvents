@@ -1,6 +1,11 @@
 {
-  "name": "frontend",
+  "name": "hypixel-events",
   "version": "0.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "iHDeveloper",
+    "email": "20463031+iHDeveloper@users.noreply.github.com"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
