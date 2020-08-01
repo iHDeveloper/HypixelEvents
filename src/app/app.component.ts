@@ -11,7 +11,7 @@ export class AppComponent implements AfterViewInit, RendererManager {
   title = 'frontend';
   events: EventRenderInfo[];
 
-  @ViewChild('frame', { static: false }) frame: ElementRef;
+  @ViewChild('frame') frame: ElementRef;
   context: CanvasRenderingContext2D;
 
   constructor(
