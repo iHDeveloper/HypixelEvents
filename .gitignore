@@ -3,12 +3,17 @@
 # compiled output
 /dist
 /tmp
+/lib
 /out-tsc
 # Only exists if Bazel was run
 /bazel-out
 
 # dependencies
 /node_modules
+
+# Firebase debug log
+firebase-debug.log
+ui-debug.log
 
 # profiling files
 chrome-profiler-events*.json
