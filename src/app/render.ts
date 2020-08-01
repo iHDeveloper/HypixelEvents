@@ -6,7 +6,8 @@ export interface RendererManager {
 
 export interface EventRenderInfo {
     angle: number;
-    name: string;
+    title: string;
+    tag: string;
     info: string;
     fill: boolean;
 }

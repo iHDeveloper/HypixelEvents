@@ -2,10 +2,10 @@
     display: grid;
     width: 100%;
     grid-template-columns: auto auto auto;
-}
 
-.time {
-    text-align: center;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 35px;
+    h1 {
+        text-align: center;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 35px;
+    }
 }
