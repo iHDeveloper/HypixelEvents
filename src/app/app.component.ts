@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import { TimelineManager } from './timeline';
-import { RendererManager, EventRenderInfo, Point } from './render';
+import { RendererManager, EventRenderInfo, Point, EventRenderDuration } from './render';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,7 @@ import { RendererManager, EventRenderInfo, Point } from './render';
 export class AppComponent implements AfterViewInit, RendererManager {
   title = 'frontend';
   events: EventRenderInfo[];
+  durations: EventRenderDuration[];
 
   @ViewChild('frame') frame: ElementRef;
   context: CanvasRenderingContext2D;
@@ -38,6 +39,7 @@ export class AppComponent implements AfterViewInit, RendererManager {
    */
   reset() {
     this.events = [];
+    this.durations = [];
   }
 
   /**
@@ -45,6 +47,10 @@ export class AppComponent implements AfterViewInit, RendererManager {
    */
   add(event: EventRenderInfo) {
     this.events.push(event);
+  }
+
+  addDuration(duration: EventRenderDuration) {
+    this.durations.push(duration);
   }
 
   /**
@@ -78,16 +84,32 @@ export class AppComponent implements AfterViewInit, RendererManager {
     this.context.restore();
 
     // Render the line that represents the now time
-    const renderNowLine = (angle = 90, length = 10) => {
-      angle = (angle * -Math.PI) / 180;
-      const x = origin.x + ((radius - thick / 2) * Math.cos(angle));
-      const y = origin.y + ((radius - thick / 2) * Math.sin(angle));
-      this.context.beginPath();
-      this.context.moveTo(x, y + length);
-      this.context.lineTo(x, y - length);
-      this.context.stroke();
+    this.renderNowLine(origin, radius, thick);
+    
+    // Render "Current Events"
+    this.context.save();
+    this.context.font = '40px Arial bold';
+    this.context.fillText("Current Events", origin.x - (radius / 8), height - (radius / 2) + (radius / 16) + 10);
+    this.context.restore();
+    
+    // Render durations
+    const durationOrigin: Point = {
+      x: (origin.x - (radius / 2) + (radius / 8)) + 15,
+      y: (height - (radius / 2) + (radius / 8)) + 30,
     };
-    renderNowLine();
+    for (let i = 0; i < this.durations.length; i++) {
+      const duration = this.durations[i];
+      this.context.save();
+
+      this.printName(durationOrigin, duration.name);
+      this.printTag(durationOrigin, duration.tag);
+      this.printInfo(durationOrigin, duration.info);
+      this.printColor(durationOrigin, duration.color);
+
+      this.context.restore();
+
+      durationOrigin.x += 250;
+    }
 
     for (const event of this.events) {
 
@@ -174,6 +196,16 @@ export class AppComponent implements AfterViewInit, RendererManager {
   private printColor(point: Point, color: string) {
     this.context.fillStyle = color;
     this.context.fillRect(point.x - 15, point.y - 30, 5, 50);
+  }
+
+  private renderNowLine(origin: Point, radius: number, thick: number, angle = 90, length = 10) {
+    angle = (angle * -Math.PI) / 180;
+    const x = origin.x + ((radius - thick / 2) * Math.cos(angle));
+    const y = origin.y + ((radius - thick / 2) * Math.sin(angle));
+    this.context.beginPath();
+    this.context.moveTo(x, y + length);
+    this.context.lineTo(x, y - length);
+    this.context.stroke();
   }
 
   /**

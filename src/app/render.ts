@@ -1,7 +1,13 @@
 export interface RendererManager {
-    add(point: EventRenderInfo): void;
+    add(event: EventRenderInfo): void;
+    addDuration(duration: EventRenderDuration): void;
     reset(): void;
     render(): void;
+}
+
+export interface Point {
+    x: number;
+    y: number;
 }
 
 export interface EventRenderInfo {
@@ -16,7 +22,9 @@ export interface EventRenderInfo {
     fill: boolean;
 }
 
-export interface Point {
-    x: number;
-    y: number;
+export interface EventRenderDuration {
+    name: string;
+    tag: string;
+    color: string;
+    info: string;
 }

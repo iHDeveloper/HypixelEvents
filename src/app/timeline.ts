@@ -18,12 +18,16 @@ export class TimelineManager {
 
     // Render updater
     updater: Subject<void>;
+
     events: Event[];
+    durations: DurationEvent[];
 
     constructor() {
         // Events seed for testing.
         // TODO remove after testing
         this.events = [];
+        this.durations = [];
+
         for (let mins = 3; mins <= 120; mins++) {
             this.events.push({
                 date: moment().add(mins, 'minutes').toDate(),
@@ -39,7 +43,14 @@ export class TimelineManager {
             tag: 'Skyblock',
             startDate: moment().add(0, 'minutes').add(30, 'seconds').toDate(),
             endDate: moment().add(2, 'minutes').add(30, 'seconds').toDate(),
-        })
+        });
+        this.addDurationEvent({
+            type: ComplexEventType.DURATION,
+            name: "Spooky Festival",
+            tag: 'Skyblock',
+            startDate: moment().add(1, 'minutes').add(30, 'seconds').toDate(),
+            endDate: moment().add(3, 'minutes').add(30, 'seconds').toDate(),
+        });
     }
 
     private rendererManager: RendererManager;
@@ -68,6 +79,70 @@ export class TimelineManager {
         const now = moment();
         const from = moment().subtract(this.range, 'seconds');
         const to = moment().add(this.range, 'seconds');
+
+        // Render durations
+        for (const duration of this.durations) {
+            const startDate = moment(duration.startDate);
+            if (startDate.isBetween(from, to)) {
+                if (startDate.isBetween(now, to)) {
+                    const toDiff = to.valueOf() - startDate.valueOf();
+                    this.rendererManager.add({
+                        name: `[Start] ${duration.name}`,
+                        tag: duration.tag,
+                        color: "green",
+                        angle: (90 * toDiff) / TIME_DIFF,
+                        info: `T - ${this.countdownFormat(moment.duration(startDate.diff(now)))}`,
+                        fill: false
+                    });
+                } else {
+                    const nowDiff = now.valueOf() - startDate.valueOf();
+                    this.rendererManager.add({
+                        name: `[Start] ${duration.name}`,
+                        tag: duration.tag,
+                        color: "green",
+                        angle: 90 + ((90 * nowDiff) / TIME_DIFF),
+                        info: `T + ${this.countdownFormat(moment.duration(now.diff(startDate)))}`,
+                        fill: true
+                    });
+                }
+
+                const endDate = moment(duration.endDate);
+                if (endDate.isBetween(from, to)) {
+                    if (endDate.isBetween(now, to)) {
+                        const toDiff = to.valueOf() - endDate.valueOf();
+                        this.rendererManager.add({
+                            name: `[End] ${duration.name}`,
+                            tag: duration.tag,
+                            color: "red",
+                            angle: (90 * toDiff) / TIME_DIFF,
+                            info: `T - ${this.countdownFormat(moment.duration(endDate.diff(now)))}`,
+                            fill: false
+                        });
+
+                        if (startDate.isBetween(from, now)) {
+                            this.rendererManager.addDuration({
+                                name: duration.name,
+                                tag: duration.tag,
+                                color: "gold",
+                                info: `T - ${this.countdownFormat(moment.duration(endDate.diff(now)))}`
+                            });
+                        }
+                    } else {
+                        const nowDiff = now.valueOf() - endDate.valueOf();
+                        this.rendererManager.add({
+                            name: `[End] ${duration.name}`,
+                            tag: duration.tag,
+                            color: "red",
+                            angle: 90 + ((90 * nowDiff) / TIME_DIFF),
+                            info: `T + ${this.countdownFormat(moment.duration(now.diff(endDate)))}`,
+                            fill: true
+                        });
+                    }
+                }
+            }
+        }
+
+        // Render events
         for (const event of this.events) {
             const date = moment(event.date);
             if (!date.isBetween(from, to)) {
@@ -111,21 +186,7 @@ export class TimelineManager {
     }
 
     private addDurationEvent(event: DurationEvent) {
-        // Add start event
-        this.events.push({
-            name: `[Start] ${event.name}`,
-            tag: event.tag,
-            color: "green",
-            date: event.startDate
-        });
-
-        // Add end event
-        this.events.push({
-            name: `[End] ${event.name}`,
-            tag: event.tag,
-            color: "red",
-            date: event.endDate
-        });
+        this.durations.push(event);
     }
 
 }
