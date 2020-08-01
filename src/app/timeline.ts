@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { RendererManager } from './render';
-import { Event } from './event';
+import { Event, DurationEvent, ComplexEventType } from './event';
 import * as moment from 'moment';
 
 /**
@@ -24,13 +24,21 @@ export class TimelineManager {
         // Events seed for testing.
         // TODO remove after testing
         this.events = [];
-        for (let mins = 1; mins <= 120; mins++) {
+        for (let mins = 3; mins <= 120; mins++) {
             this.events.push({
                 date: moment().add(mins, 'minutes').toDate(),
                 title: `Event +${mins}m`,
                 tag: 'Hypixel'
             });
         }
+
+        this.addDurationEvent({
+            type: ComplexEventType.DURATION,
+            name: "Season of Jerry",
+            tag: 'Skyblock',
+            startDate: moment().add(0, 'minutes').add(30, 'seconds').toDate(),
+            endDate: moment().add(2, 'minutes').add(30, 'seconds').toDate(),
+        })
     }
 
     private rendererManager: RendererManager;
@@ -97,6 +105,22 @@ export class TimelineManager {
         const m = duration.minutes();
         const s = duration.seconds();
         return `${h <= 9 ? '0' + h : h}:${m <= 9 ? '0' + m : m}:${s <= 9 ? '0' + s : s}`;
+    }
+
+    private addDurationEvent(event: DurationEvent) {
+        // Add start event
+        this.events.push({
+            title: `[Start] ${event.name}`,
+            tag: event.tag,
+            date: event.startDate
+        });
+
+        // Add end event
+        this.events.push({
+            title: `[End] ${event.name}`,
+            tag: event.tag,
+            date: event.endDate
+        });
     }
 
 }
