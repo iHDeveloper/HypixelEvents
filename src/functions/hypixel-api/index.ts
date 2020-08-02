@@ -63,6 +63,7 @@ export namespace HypixelAPI {
         type: 0;
         name: string;
         tag: string;
+        color: string;
         startDate: Date;
         endDate: Date;
     }
@@ -185,7 +186,7 @@ export namespace HypixelAPI {
         debug(`SkyblockDate(asNativeDate): ${sbDate.toDate()}`);
 
         const events: Event[] = [];
-        // const durations: DurationEvent[] = [];
+        const durations: DurationEvent[] = [];
 
         // Implement daily events
         {
@@ -211,6 +212,7 @@ export namespace HypixelAPI {
         // Add start of each month as event
         {
             const date = sbDate.clone();
+            date.day = 1;
             date.hour = 6;
             date.minute = 0;
             for (let month = 1; month <= MONTHS_PER_YEAR; month++) {
@@ -218,17 +220,23 @@ export namespace HypixelAPI {
                 const name = rawCalendar.months[month];
 
                 // TODO Format event's name
-                let nativeDate = date.toDate();
-                events.push({
+                const startDate = date.toDate();
+                date.day = 31;
+                const endDate = date.toDate();
+                date.day = 1;
+                durations.push({
+                    type: 0,
                     name: `${name}`,
                     tag: 'Skyblock',
                     color: 'gold',
-                    date: nativeDate
+                    startDate: startDate,
+                    endDate: endDate
                 });
-                debug(`Add start of (${name}) at ${nativeDate}`);
+                const f = 'MMM Do HH:mm:SS A';
+                debug(`Add duration of (${name}) at ${moment(startDate).format(f)} till ${moment(endDate).format(f)}`);
 
                 date.hour = 7;
-                nativeDate = date.toDate();
+                const nativeDate = date.toDate();
                 events.push({
                     name: `Bank Interest - ${name}`,
                     tag: 'Skyblock',
