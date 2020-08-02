@@ -193,7 +193,7 @@ export namespace HypixelAPI {
             date.hour = 6;
             date.minute = 0;
             const name = rawCalendar.months[date.month];
-            for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+            for (let day = 2; day <= DAYS_IN_MONTH; day++) {
                 date.day = day;
 
                 // TODO Format event's name
@@ -218,7 +218,7 @@ export namespace HypixelAPI {
                 const name = rawCalendar.months[month];
 
                 // TODO Format event's name
-                const nativeDate = date.toDate();
+                let nativeDate = date.toDate();
                 events.push({
                     name: `${name}`,
                     tag: 'Skyblock',
@@ -226,6 +226,16 @@ export namespace HypixelAPI {
                     date: nativeDate
                 });
                 debug(`Add start of (${name}) at ${nativeDate}`);
+
+                date.hour = 7;
+                nativeDate = date.toDate();
+                events.push({
+                    name: `Bank Interest - ${name}`,
+                    tag: 'Skyblock',
+                    color: '#994d00',
+                    date: nativeDate
+                });
+                date.hour = 6;
             }
         }
 
