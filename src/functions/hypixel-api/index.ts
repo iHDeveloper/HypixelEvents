@@ -48,7 +48,23 @@ export namespace HypixelAPI {
             },
             months: {[key: number]: MonthType},
             reverseMonths: {[key: string]: number},
-
+            events: {
+                yearly: [{
+                    key: string,
+                    name: string,
+                    url: string,
+                    when: [{
+                        start: {
+                            month: string;
+                            day: number;
+                        },
+                        end: {
+                            month: string;
+                            day: number;
+                        }
+                    }]
+                }]
+            }
         }
     }
 
@@ -197,6 +213,19 @@ export namespace HypixelAPI {
             for (let day = 2; day <= DAYS_IN_MONTH; day++) {
                 date.day = day;
 
+                // Ignore for yearly events
+                if ((day >= 29 && day <= 31) && name === MonthType.AUTUMN) {
+                    continue; // Ignore for Spooky Event
+                } else if ((day >= 1 && day <= 3) && name === MonthType.EARLY_SUMMER) {
+                    continue; // Ignore for Travelling Zoo event
+                } else if (day === 1 && (name === MonthType.LATE_WINTER || name === MonthType.EARLY_SPRING)) {
+                    continue; // Ignore for Jerry's workshop event
+                } else if ((day >= 24 && day <= 26) && name === MonthType.LATE_WINTER) {
+                    continue; // Ignore for Season of Jerry event
+                } else if ((day >= 29 && day <= 31) && name === MonthType.LATE_WINTER) {
+                    continue; // Ignore for New Year celebration event
+                }
+
                 // TODO Format event's name
                 const nativeDate = date.toDate();
                 events.push({
@@ -235,6 +264,11 @@ export namespace HypixelAPI {
                 const f = 'MMM Do HH:mm:SS A';
                 debug(`Add duration of (${name}) at ${moment(startDate).format(f)} till ${moment(endDate).format(f)}`);
 
+                // Bank interest event
+                // TODO Format event's name
+                if (name === MonthType.EARLY_SUMMER || name === MonthType.LATE_WINTER|| name === MonthType.EARLY_SPRING) {
+                    continue; // Ignore for yearly events
+                }
                 date.hour = 7;
                 const nativeDate = date.toDate();
                 events.push({
@@ -247,8 +281,36 @@ export namespace HypixelAPI {
             }
         }
 
-        // TODO Implement monthly events
-        // TODO Implement yearly events
+        // Add yearly events as duration events
+        {
+            for (const rawEvent of rawCalendar.events.yearly) {
+                const start = rawEvent.when[0].start;
+                const end = rawEvent.when[0].end;
+                
+                const startDate = sbDate.clone();
+                startDate.month = rawCalendar.reverseMonths[start.month];
+                if (startDate.month < sbDate.month)
+                    startDate.year++;
+                startDate.day = start.day;
+
+                const endDate = sbDate.clone();
+                endDate.month = rawCalendar.reverseMonths[end.month];
+                if (endDate.month < sbDate.month)
+                    endDate.year++;
+                endDate.day = end.day;
+
+                durations.push({
+                    type: 0,
+                    name: rawEvent.name,
+                    tag: 'Skyblock',
+                    color: 'black',
+                    startDate: startDate.toDate(),
+                    endDate: endDate.toDate()
+                });
+                const f = 'MMM Do HH:mm:SS A';
+                debug(`Add (${rawEvent.key}) at ${moment(startDate.toDate()).format(f)} till ${moment(endDate.toDate()).format(f)}`);
+            }
+        }
 
         return {
             real: {
@@ -260,7 +322,7 @@ export namespace HypixelAPI {
             },
             months: rawCalendar.months,
             events: events,
-            durations: []
+            durations: durations
         };
     }
 
