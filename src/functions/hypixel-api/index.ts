@@ -8,6 +8,7 @@ export namespace HypixelAPI {
 
     const BASE_URL = "https://hypixel-api.inventivetalent.org/api/";
     const MONTHS_PER_YEAR = 12;
+    const DAYS_IN_MONTH = 31;
 
     export enum MonthType {
         EARLY_SPRING = "early_spring",
@@ -186,23 +187,46 @@ export namespace HypixelAPI {
         const events: Event[] = [];
         // const durations: DurationEvent[] = [];
 
-        // TODO Implement daily events
+        // Implement daily events
+        {
+            const date = sbDate.clone();
+            date.hour = 6;
+            date.minute = 0;
+            const name = rawCalendar.months[date.month];
+            for (let day = 1; day <= DAYS_IN_MONTH; day++) {
+                date.day = day;
+
+                // TODO Format event's name
+                const nativeDate = date.toDate();
+                events.push({
+                    name: `${name} - ${day}`,
+                    tag: 'Skyblock',
+                    color: '#ffa64d',
+                    date: nativeDate
+                });
+                debug(`Add day(${day}) of ${name} at ${nativeDate}`);
+            }
+        }
         
         // Add start of each month as event
-        sbDate.hour = 6;
-        sbDate.minute = 0;
-        for (let month = 1; month <= MONTHS_PER_YEAR; month++) {
-            sbDate.month = month;
-            const name = rawCalendar.months[month];
+        {
+            const date = sbDate.clone();
+            date.hour = 6;
+            date.minute = 0;
+            for (let month = 1; month <= MONTHS_PER_YEAR; month++) {
+                date.month = month;
+                const name = rawCalendar.months[month];
 
-            // TODO Format the month's name
-            events.push({
-                name: `${name}`,
-                tag: 'Skyblock',
-                color: 'gold',
-                date: sbDate.toDate()
-            });
-            debug(`[Events] Add Start of (${name}) at ${sbDate.toDate()}`);
+                // TODO Format event's name
+                const nativeDate = date.toDate();
+                events.push({
+                    name: `${name}`,
+                    tag: 'Skyblock',
+                    color: 'gold',
+                    date: nativeDate
+                });
+                debug(`Add start of (${name}) at ${nativeDate}`);
+            }
         }
 
         // TODO Implement monthly events
