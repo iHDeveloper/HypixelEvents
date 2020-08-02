@@ -11,9 +11,13 @@
 # dependencies
 /node_modules
 
-# Firebase debug log
+# Firebase debug logs
 firebase-debug.log
+firestore-debug.log
 ui-debug.log
+
+# Firebase service account
+service-account.json
 
 # profiling files
 chrome-profiler-events*.json

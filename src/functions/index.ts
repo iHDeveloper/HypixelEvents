@@ -1,7 +1,28 @@
-import * as functions from 'firebase-functions';
+import * as FirebaseFunctions from 'firebase-functions';
 import { Response, Request } from 'firebase-functions';
+import { HypixelAPI } from './hypixel-api';
+import { firestore, initializeApp, credential } from 'firebase-admin';
+import { info } from 'console';
 
-export const test = functions.https.onRequest((request: Request, response: Response) => {
-    functions.logger.debug("Test");
-    response.send("test");
+let initialized = false;
+
+function init() {
+    if (initialized)
+        return;
+    initialized = true;
+    
+    info("Initializing the application...");
+    initializeApp({
+        credential: credential.cert(require('../service-account.json')),
+        databaseURL: 'https://ihdeveloper.firebaseio.com'
+    });
+}
+
+export const updateCalendar = FirebaseFunctions.https.onRequest(async (_: Request, response: Response) => {
+    init();
+
+    const data = await HypixelAPI.calendar();
+    info("Updating...");
+    await firestore().collection('skyblock').doc('calendar').set(data);
+    response.status(200).send();
 });
