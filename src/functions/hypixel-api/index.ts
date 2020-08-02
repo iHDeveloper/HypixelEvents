@@ -226,10 +226,9 @@ export namespace HypixelAPI {
                     continue; // Ignore for New Year celebration event
                 }
 
-                // TODO Format event's name
                 const nativeDate = date.toDate();
                 events.push({
-                    name: `${name} - ${day}`,
+                    name: `${formatMonth(name)} - ${formatDay(day)}`,
                     tag: 'Skyblock',
                     color: '#ffa64d',
                     date: nativeDate
@@ -248,14 +247,13 @@ export namespace HypixelAPI {
                 date.month = month;
                 const name = rawCalendar.months[month];
 
-                // TODO Format event's name
                 const startDate = date.toDate();
                 date.day = 31;
                 const endDate = date.toDate();
                 date.day = 1;
                 durations.push({
                     type: 0,
-                    name: `${name}`,
+                    name: `${formatMonth(name)}`,
                     tag: 'Skyblock',
                     color: 'gold',
                     startDate: startDate,
@@ -265,14 +263,13 @@ export namespace HypixelAPI {
                 debug(`Add duration of (${name}) at ${moment(startDate).format(f)} till ${moment(endDate).format(f)}`);
 
                 // Bank interest event
-                // TODO Format event's name
                 if (name === MonthType.EARLY_SUMMER || name === MonthType.LATE_WINTER|| name === MonthType.EARLY_SPRING) {
                     continue; // Ignore for yearly events
                 }
                 date.hour = 7;
                 const nativeDate = date.toDate();
                 events.push({
-                    name: `Bank Interest - ${name}`,
+                    name: `Bank Interest - ${formatMonth(name)}`,
                     tag: 'Skyblock',
                     color: '#994d00',
                     date: nativeDate
@@ -334,6 +331,48 @@ export namespace HypixelAPI {
         }
         const response = await request(path, undefined, headers);
         return response as any;
+    }
+
+    function formatMonth(type: MonthType): string {
+        switch (type) {
+            case MonthType.EARLY_SPRING:
+                return "Early Spring";
+            case MonthType.SPRING:
+                return "Spring";
+            case MonthType.LATE_SPRING:
+                return "Late Spring";
+            case MonthType.EARLY_SUMMER:
+                return "Early Summer";
+            case MonthType.SUMMER:
+                return "Summer";
+            case MonthType.LATE_SUMMER:
+                return "Late Summer";
+            case MonthType.EARLY_AUTUMN:
+                return "Early Autumn";
+            case MonthType.AUTUMN:
+                return "Autumn";
+            case MonthType.LATE_AUTUMN:
+                return "Late Autumn";
+            case MonthType.EARLY_WINTER:
+                return "Early Winter";
+            case MonthType.WINTER:
+                return "Winter";
+            case MonthType.LATE_WINTER:
+                return "Late Winter";
+            default:
+                return "Unknown";
+        }
+    }
+
+    function formatDay(day: number): string {
+        if (day === 1)
+            return "1st";
+        else if (day === 2)
+            return "2nd";
+        else if (day === 3)
+            return "3rd";
+        else
+            return `${day}th`;
     }
 
 }
