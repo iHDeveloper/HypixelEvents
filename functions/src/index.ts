@@ -1,5 +1,4 @@
 import * as FirebaseFunctions from 'firebase-functions';
-import { Response, Request } from 'firebase-functions';
 import { HypixelAPI } from './api';
 import { firestore, initializeApp, credential } from 'firebase-admin';
 import { info } from 'console';
@@ -18,11 +17,10 @@ function init() {
     });
 }
 
-export const updateCalendar = FirebaseFunctions.https.onRequest(async (_: Request, response: Response) => {
+export const updateCalendar = FirebaseFunctions.pubsub.schedule("0 */1 * * *").onRun(async () => {
     init();
 
     const data = await HypixelAPI.calendar();
     info("Updating...");
     await firestore().collection('skyblock').doc('calendar').set(data);
-    response.status(200).send();
 });
