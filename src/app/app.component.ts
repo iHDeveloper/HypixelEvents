@@ -17,8 +17,7 @@ export class AppComponent implements AfterViewInit, RendererManager {
   context: CanvasRenderingContext2D;
 
   constructor(
-    private timelineManager: TimelineManager,
-    private calendar: CalendarService
+    private timelineManager: TimelineManager
   ) {
   }
 
@@ -32,7 +31,7 @@ export class AppComponent implements AfterViewInit, RendererManager {
   /**
    * Update the size of the canvas when the window changes.
    */
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize', [])
   onResize() {
     this.updateSize(this.frame.nativeElement as HTMLCanvasElement);
   }
