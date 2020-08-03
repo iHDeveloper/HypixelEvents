@@ -13,6 +13,7 @@ export interface ComplexEvent {
     type: ComplexEventType;
     name: string;
     tag: string;
+    color: string;
 }
 
 export interface DurationEvent extends ComplexEvent {

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subject, interval } from 'rxjs';
+import { Subject, interval, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { RendererManager } from './render';
-import { Event, DurationEvent, ComplexEventType } from './event';
+import { Event, DurationEvent } from './event';
 import * as moment from 'moment';
+import { CalendarService } from './calendar.service';
 
 /**
  * Manages the render process and information of the events.
@@ -14,43 +15,23 @@ import * as moment from 'moment';
 export class TimelineManager {
 
     // Range View of the timeline ( in seconds )
-    public range = 5 * 60;
+    public range = (60 * 60) + (30 * 60);
 
     // Render updater
-    updater: Subject<void>;
+    private updater: Subject<void>;
 
-    events: Event[];
-    durations: DurationEvent[];
+    // Calendar subscriptions
+    private eventsSubscription: Subscription;
+    private durationEventsSubscription: Subscription;
 
-    constructor() {
-        // Events seed for testing.
-        // TODO remove after testing
+    private events: Event[];
+    private durations: DurationEvent[];
+
+    constructor(
+        private calendar: CalendarService
+    ) {
         this.events = [];
         this.durations = [];
-
-        for (let mins = 3; mins <= 120; mins++) {
-            this.events.push({
-                date: moment().add(mins, 'minutes').toDate(),
-                name: `Event +${mins}m`,
-                color: "gray",
-                tag: 'Hypixel'
-            });
-        }
-
-        this.addDurationEvent({
-            type: ComplexEventType.DURATION,
-            name: "Season of Jerry",
-            tag: 'Skyblock',
-            startDate: moment().add(0, 'minutes').add(30, 'seconds').toDate(),
-            endDate: moment().add(2, 'minutes').add(30, 'seconds').toDate(),
-        });
-        this.addDurationEvent({
-            type: ComplexEventType.DURATION,
-            name: "Spooky Festival",
-            tag: 'Skyblock',
-            startDate: moment().add(1, 'minutes').add(30, 'seconds').toDate(),
-            endDate: moment().add(3, 'minutes').add(30, 'seconds').toDate(),
-        });
     }
 
     private rendererManager: RendererManager;
@@ -67,7 +48,22 @@ export class TimelineManager {
         this.updater = new Subject<void>();
         interval(1000 / 60).pipe(takeUntil(this.updater)).subscribe(() => this.render());
         this.rendererManager.reset();
+
+        this.calendar.start();
+        this.eventsSubscription = this.calendar.events.subscribe(e => this.eventsUpdate(e));
+        this.durationEventsSubscription = this.calendar.durations.subscribe(e => this.durationsUpdate(e));
+
         this.render();
+    }
+
+    public dispose() {
+        this.rendererManager.reset();
+        this.rendererManager.render();
+        this.rendererManager = undefined;
+
+        this.eventsSubscription.unsubscribe();
+        this.durationEventsSubscription.unsubscribe();
+        this.calendar.stop();
     }
 
     /**
@@ -123,7 +119,7 @@ export class TimelineManager {
                             this.rendererManager.addDuration({
                                 name: duration.name,
                                 tag: duration.tag,
-                                color: "gold",
+                                color: duration.color,
                                 info: `T - ${this.countdownFormat(moment.duration(endDate.diff(now)))}`
                             });
                         }
@@ -187,6 +183,22 @@ export class TimelineManager {
 
     private addDurationEvent(event: DurationEvent) {
         this.durations.push(event);
+    }
+
+    private eventsUpdate(event: Event | undefined) {
+        if (event === undefined) {
+            this.events = [];
+            return;
+        }
+        this.events.push(event);
+    }
+
+    private durationsUpdate(duration: DurationEvent | undefined) {
+        if (duration === undefined) {
+            this.durations = [];
+            return;
+        }
+        this.addDurationEvent(duration);
     }
 
 }

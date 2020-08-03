@@ -8,6 +8,7 @@ import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { environment } from 'src/environments/environment';
+import { CalendarService } from './calendar.service';
 
 @NgModule({
   declarations: [

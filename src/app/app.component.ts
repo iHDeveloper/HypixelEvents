@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import { TimelineManager } from './timeline';
 import { RendererManager, EventRenderInfo, Point, EventRenderDuration } from './render';
+import { CalendarService } from './calendar.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,8 @@ export class AppComponent implements AfterViewInit, RendererManager {
   context: CanvasRenderingContext2D;
 
   constructor(
-    private timelineManager: TimelineManager
+    private timelineManager: TimelineManager,
+    private calendar: CalendarService
   ) {
   }
 
