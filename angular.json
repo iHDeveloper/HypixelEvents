@@ -122,8 +122,13 @@
               "devServerTarget": "frontend:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "frontend"
 }

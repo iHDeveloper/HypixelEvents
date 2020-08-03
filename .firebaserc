@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "ihdeveloper"
+  },
+  "targets": {
+    "ihdeveloper": {
+      "hosting": {
+        "frontend": [
+          "ihdeveloper"
+        ]
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 import * as FirebaseFunctions from 'firebase-functions';
 import { Response, Request } from 'firebase-functions';
-import { HypixelAPI } from './hypixel-api';
+import { HypixelAPI } from './api';
 import { firestore, initializeApp, credential } from 'firebase-admin';
 import { info } from 'console';
 

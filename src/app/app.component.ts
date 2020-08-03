@@ -17,7 +17,8 @@ export class AppComponent implements AfterViewInit, RendererManager {
 
   constructor(
     private timelineManager: TimelineManager
-  ) { }
+  ) {
+  }
 
   ngAfterViewInit() {
     const nativeElement = this.frame.nativeElement as HTMLCanvasElement;

@@ -1,0 +1,33 @@
+{
+  "name": "hypixel-events",
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "serve": "npm run build && firebase emulators:start --only functions,firestore",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iHDeveloper/HypixelEvents.git"
+  },
+  "author": "iHDeveloper",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iHDeveloper/HypixelEvents/issues"
+  },
+  "homepage": "https://github.com/iHDeveloper/HypixelEvents#readme",
+  "dependencies": {
+    "bent": "7.3.9",
+    "firebase-admin": "9.0.0",
+    "firebase-functions": "3.9.0"
+  },
+  "devDependencies": {
+    "@types/bent": "7.3.0",
+    "typescript": "3.9.7"
+  }
+}

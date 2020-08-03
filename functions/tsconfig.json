@@ -11,8 +11,7 @@
     },
     "compileOnSave": true,
     "include": [
-      "src/functions/*",
-      "src/functions/**/*"
+      "src/**/*"
     ]
   }
   
