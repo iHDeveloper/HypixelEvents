@@ -24,6 +24,7 @@ export class SettingsComponent implements OnInit {
     localStorage.setItem("range", "" + value);
 
     this.analytics.logEvent('settings', { "range": value } );
+    this.analytics.setUserProperties({ range: value });
   }
 
   formatRange(value: number) {

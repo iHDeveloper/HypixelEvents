@@ -1,5 +1,6 @@
 # `Hypixel Events` - Track current events in realtime!
 A simple website to track Hypixel events in real-time.
+**I don't recommend you to open the website on mobile**
 
 The project depends on
 - **Data Source:** [Hypixel API](https://github.com/InventivetalentDev/HypixelAPI) by [@inventivetalent](https://github.com/InventivetalentDev)

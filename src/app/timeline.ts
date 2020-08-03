@@ -40,6 +40,7 @@ export class TimelineManager {
             this.range = parseInt(_range);
         }
         this.analytics.logEvent('settings', { "range": this.range } );
+        this.analytics.setUserProperties({ range: this.range });
     }
 
     private rendererManager: RendererManager;
