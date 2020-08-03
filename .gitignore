@@ -11,12 +11,11 @@ lib
 # dependencies
 node_modules
 
-# Firebase debug logs
+# Firebase
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
-
-# Firebase service account
+.firebase
 service-account.json
 
 # profiling files

@@ -9,7 +9,6 @@ import { CalendarService } from './calendar.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit, RendererManager {
-  title = 'frontend';
   events: EventRenderInfo[];
   durations: EventRenderDuration[];
 
