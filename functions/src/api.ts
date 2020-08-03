@@ -2,7 +2,7 @@ import bent from 'bent';
 import moment from 'moment';
 import { info, debug } from 'console';
 
-const VERSION = "0.1.1"
+const VERSION = "0.1.2"
 
 export namespace HypixelAPI {
 
@@ -332,7 +332,7 @@ export namespace HypixelAPI {
     }
 
     async function fetch<T>(path: string): Promise<T> {
-        info(`Fetching ${BASE_URL}/${path}...`);
+        info(`Fetching ${BASE_URL}${path}...`);
         const request = bent(BASE_URL, 'json');
         const headers: {[key: string]: string} = {
             "User-Agent": `HypixelEvents/${VERSION} Updater`
