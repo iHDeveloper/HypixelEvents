@@ -12,7 +12,7 @@ export class AppComponent implements AfterViewInit, RendererManager {
   events: EventRenderInfo[];
   durations: EventRenderDuration[];
 
-  @ViewChild('frame') frame: ElementRef;
+  @ViewChild('frame', { static: false }) frame: ElementRef;
   context: CanvasRenderingContext2D;
 
   constructor(
