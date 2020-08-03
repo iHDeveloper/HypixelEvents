@@ -5,6 +5,7 @@ import { RendererManager } from './render';
 import { Event, DurationEvent } from './event';
 import * as moment from 'moment';
 import { CalendarService } from './calendar.service';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 
 /**
  * Manages the render process and information of the events.
@@ -28,10 +29,17 @@ export class TimelineManager {
     private durations: DurationEvent[];
 
     constructor(
+        private analytics: AngularFireAnalytics,
         private calendar: CalendarService
     ) {
         this.events = [];
         this.durations = [];
+
+        const _range = localStorage.getItem('range');
+        if (_range !== null) {
+            this.range = parseInt(_range);
+        }
+        this.analytics.logEvent('settings', { "range": this.range } );
     }
 
     private rendererManager: RendererManager;

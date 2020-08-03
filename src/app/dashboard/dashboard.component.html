@@ -1,7 +1,10 @@
 <div class="container">
     <div>
         <h1>Hypixel Events</h1>
-        <p><a href="https://github.com/iHDeveloper/HypixelEvents">Github</a></p>
+        <div class="tools">
+            <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/iHDeveloper/HypixelEvents" (click)="openGithub()">Github</a></p>
+        <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/iHDeveloper/HypixelEvents/issues" (click)="openIssuesTracker()">Issue Tracker</a></p>
+        </div>
     </div>
     <div>
         <h1>{{ time }}</h1>
@@ -11,7 +14,7 @@
         <h1>v{{ version }}</h1>
         <div class="tools">
             <p class="last-updated">{{ lastUpdated }}</p>
-            <button class="settings" mat-button color="primary" (click)="onSettings()">
+            <button class="settings" mat-button color="primary" (click)="openSettings()">
                 <mat-icon>settings</mat-icon>
             </button>
         </div>

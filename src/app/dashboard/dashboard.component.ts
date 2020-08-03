@@ -9,6 +9,7 @@ import { MonthType } from '../api/month.type';
 import { Calendar } from '../api/calendar';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { SettingsComponent } from '../settings/settings.component';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 
 type Months = {[key: number]: MonthType};
 
@@ -85,6 +86,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   constructor(
+    private analytics: AngularFireAnalytics,
     private bottomSheet: MatBottomSheet,
     private service: CalendarService
   ) {
@@ -109,8 +111,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.updater.complete();
   }
 
-  onSettings() {
+  openSettings() {
     this.bottomSheet.open(SettingsComponent);
+    this.analytics.logEvent('open', { "settings": true });
+  }
+
+  openGithub() {
+    this.analytics.logEvent('open', { "github": true });
+  }
+
+  openIssuesTracker() {
+    this.analytics.logEvent('open', { "issues": true });
   }
 
   update() {
