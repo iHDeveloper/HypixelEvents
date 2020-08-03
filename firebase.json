@@ -17,7 +17,7 @@
   },
   "hosting": [
     {
-      "target": "frontend",
+      "site": "hypixel-ihdeveloper",
       "public": "dist/frontend",
       "ignore": [
         "firebase.json",
