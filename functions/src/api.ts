@@ -207,7 +207,7 @@ export namespace HypixelAPI {
         // Implement daily events
         {
             const date = sbDate.clone();
-            date.hour = 6;
+            date.hour = 1;
             date.minute = 0;
             const name = rawCalendar.months[date.month];
             for (let day = 2; day <= DAYS_IN_MONTH; day++) {
@@ -241,7 +241,7 @@ export namespace HypixelAPI {
         {
             const date = sbDate.clone();
             date.day = 1;
-            date.hour = 6;
+            date.hour = 1;
             date.minute = 0;
             for (let month = 1; month <= MONTHS_PER_YEAR; month++) {
                 date.month = month;
@@ -263,10 +263,7 @@ export namespace HypixelAPI {
                 debug(`Add duration of (${name}) at ${moment(startDate).format(f)} till ${moment(endDate).format(f)}`);
 
                 // Bank interest event
-                if (name === MonthType.EARLY_SUMMER || name === MonthType.LATE_WINTER|| name === MonthType.EARLY_SPRING) {
-                    continue; // Ignore for yearly events
-                }
-                date.hour = 7;
+                date.hour = 6;
                 const nativeDate = date.toDate();
                 events.push({
                     name: `Bank Interest - ${formatMonth(name)}`,
@@ -274,23 +271,25 @@ export namespace HypixelAPI {
                     color: '#994d00',
                     date: nativeDate
                 });
-                date.hour = 6;
             }
         }
 
         // Add yearly events as duration events
         {
+            const date = sbDate.clone();
+            date.hour = 1;
+            date.minute = 0;
             for (const rawEvent of rawCalendar.events.yearly) {
                 const start = rawEvent.when[0].start;
                 const end = rawEvent.when[0].end;
                 
-                const startDate = sbDate.clone();
+                const startDate = date.clone();
                 startDate.month = rawCalendar.reverseMonths[start.month];
                 if (startDate.month < sbDate.month)
                     startDate.year++;
                 startDate.day = start.day;
 
-                const endDate = sbDate.clone();
+                const endDate = date.clone();
                 endDate.month = rawCalendar.reverseMonths[end.month];
                 if (endDate.month < sbDate.month)
                     endDate.year++;
