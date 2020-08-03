@@ -14,8 +14,8 @@ import { CalendarService } from './calendar.service';
 })
 export class TimelineManager {
 
-    // Range View of the timeline ( in seconds )
-    public range = 2 * (60 * 60);
+    // Range View of the timeline ( in hours )
+    public range = 2;
 
     // Render updater
     private updater: Subject<void>;
@@ -70,11 +70,11 @@ export class TimelineManager {
      * Passing information to the render manager before renders it.
      */
     private render() {
-        const TIME_DIFF = this.range * 1000;
+        const TIME_DIFF = this.range * (60 * 60 * 1000);
         this.rendererManager.reset();
         const now = moment();
-        const from = moment().subtract(this.range, 'seconds');
-        const to = moment().add(this.range, 'seconds');
+        const from = moment().subtract(this.range, 'hours');
+        const to = moment().add(this.range, 'hours');
 
         // Render durations
         for (const duration of this.durations) {

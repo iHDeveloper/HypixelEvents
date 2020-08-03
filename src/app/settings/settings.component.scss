@@ -1,0 +1,36 @@
+div.container {
+    padding-top: 2em;
+    padding-left: .5em;
+    padding-right: .5em;
+
+    h3.credit {
+        width: 100%;
+        font-family: 'Courier New', Courier, monospace;
+        text-align: center;
+
+        a {
+            color: black;
+        }
+    }
+    
+    .label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        h3 {
+            width: 100%;
+            margin-bottom: 0; 
+        }
+
+        .right {
+            text-align: right;
+        }
+    }
+
+    mat-slider {
+        width: 100%;
+        margin-bottom: 1em;
+    }    
+}

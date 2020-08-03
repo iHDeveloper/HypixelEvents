@@ -1,1 +1,17 @@
-<p>settings works!</p>
+<div class="container">
+
+    <div class="label">
+        <h3 subheading-2>+{{value}} Hours</h3>
+        <h3 class="right" subheading-2>-{{value}} Hours</h3>
+    </div>
+    <mat-slider
+    thumbLabel
+    [displayWith]="formatRange"
+    tickInterval="1"
+    min="1"
+    max="10"
+    value="2"
+    (change)="onChange($event.value)"></mat-slider>
+
+    <h3 class="credit" subheading-2>Made with ❤️ by <a target="_blank" rel="noopener noreferrer" href="https://ihdeveloper.me">iHDeveloper</a></h3>
+</div>

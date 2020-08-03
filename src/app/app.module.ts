@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { SettingsComponent } from './settings/settings.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { SettingsComponent } from './settings/settings.component';
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatSliderModule
   ],
   providers: [
     {
