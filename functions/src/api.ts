@@ -249,7 +249,7 @@ export namespace HypixelAPI {
         {
             const date = sbDate.clone();
             date.day = 1;
-            date.hour = 1;
+            date.hour = 4;
             date.minute = 0;
             for (let month = 1; month <= MONTHS_PER_YEAR; month++) {
                 date.month = month;
@@ -257,8 +257,9 @@ export namespace HypixelAPI {
 
                 const startDate = date.toDate();
                 date.day = 31;
+                date.hour = 12;
+                date.minute = 0;
                 const endDate = date.toDate();
-                date.day = 1;
                 durations.push({
                     type: 0,
                     name: `${formatMonth(name)}`,
@@ -271,6 +272,7 @@ export namespace HypixelAPI {
                 debug(`Add duration of (${name}) at ${moment(startDate).format(f)} till ${moment(endDate).format(f)}`);
 
                 // Bank interest event
+                date.day = 1;
                 date.hour = 6;
                 const nativeDate = date.toDate();
                 events.push({
