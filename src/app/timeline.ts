@@ -79,6 +79,17 @@ export class TimelineManager {
         // Render durations
         for (const duration of this.durations) {
             const startDate = moment(duration.startDate);
+            const endDate = moment(duration.endDate);
+
+            if (now.isBetween(startDate, endDate)) {
+                this.rendererManager.addDuration({
+                    name: duration.name,
+                    tag: duration.tag,
+                    color: duration.color,
+                    info: `T - ${this.countdownFormat(moment.duration(endDate.diff(now)))}`
+                });
+            }
+
             if (startDate.isBetween(from, to)) {
                 if (startDate.isBetween(now, to)) {
                     const toDiff = to.valueOf() - startDate.valueOf();
@@ -101,39 +112,29 @@ export class TimelineManager {
                         fill: true
                     });
                 }
+            }
 
-                const endDate = moment(duration.endDate);
-                if (endDate.isBetween(from, to)) {
-                    if (endDate.isBetween(now, to)) {
-                        const toDiff = to.valueOf() - endDate.valueOf();
-                        this.rendererManager.add({
-                            name: `[End] ${duration.name}`,
-                            tag: duration.tag,
-                            color: "red",
-                            angle: (90 * toDiff) / TIME_DIFF,
-                            info: `T - ${this.countdownFormat(moment.duration(endDate.diff(now)))}`,
-                            fill: false
-                        });
-
-                        if (startDate.isBetween(from, now)) {
-                            this.rendererManager.addDuration({
-                                name: duration.name,
-                                tag: duration.tag,
-                                color: duration.color,
-                                info: `T - ${this.countdownFormat(moment.duration(endDate.diff(now)))}`
-                            });
-                        }
-                    } else {
-                        const nowDiff = now.valueOf() - endDate.valueOf();
-                        this.rendererManager.add({
-                            name: `[End] ${duration.name}`,
-                            tag: duration.tag,
-                            color: "red",
-                            angle: 90 + ((90 * nowDiff) / TIME_DIFF),
-                            info: `T + ${this.countdownFormat(moment.duration(now.diff(endDate)))}`,
-                            fill: true
-                        });
-                    }
+            if (endDate.isBetween(from, to)) {
+                if (endDate.isBetween(now, to)) {
+                    const toDiff = to.valueOf() - endDate.valueOf();
+                    this.rendererManager.add({
+                        name: `[End] ${duration.name}`,
+                        tag: duration.tag,
+                        color: "red",
+                        angle: (90 * toDiff) / TIME_DIFF,
+                        info: `T - ${this.countdownFormat(moment.duration(endDate.diff(now)))}`,
+                        fill: false
+                    });
+                } else {
+                    const nowDiff = now.valueOf() - endDate.valueOf();
+                    this.rendererManager.add({
+                        name: `[End] ${duration.name}`,
+                        tag: duration.tag,
+                        color: "red",
+                        angle: 90 + ((90 * nowDiff) / TIME_DIFF),
+                        info: `T + ${this.countdownFormat(moment.duration(now.diff(endDate)))}`,
+                        fill: true
+                    });
                 }
             }
         }
