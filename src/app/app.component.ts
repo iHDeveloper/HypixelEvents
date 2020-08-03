@@ -90,13 +90,13 @@ export class AppComponent implements AfterViewInit, RendererManager {
     // Render "Current Events"
     this.context.save();
     this.context.font = '40px Arial bold';
-    this.context.fillText("Current Events", origin.x - (radius / 8), height - (radius / 2) + (radius / 16) + 10);
+    this.context.fillText("Current Events", origin.x - (radius / 8), height - (radius / 2) + (radius / 8) + 10);
     this.context.restore();
     
     // Render durations
     const durationOrigin: Point = {
       x: (origin.x - (radius / 2) + (radius / 8)) + 15,
-      y: (height - (radius / 2) + (radius / 8)) + 30,
+      y: (height - (radius / 2) + (radius / 4)) + 30,
     };
     for (let i = 1; i <= this.durations.length; i++) {
       const duration = this.durations[i - 1];
