@@ -16,6 +16,7 @@ export class SettingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.value = this.timeline.range;
   }
 
   onChange(value: number) {
