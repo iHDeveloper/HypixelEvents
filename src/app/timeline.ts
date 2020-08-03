@@ -15,7 +15,7 @@ import { CalendarService } from './calendar.service';
 export class TimelineManager {
 
     // Range View of the timeline ( in seconds )
-    public range = (60 * 60) + (30 * 60);
+    public range = 2 * (60 * 60);
 
     // Render updater
     private updater: Subject<void>;

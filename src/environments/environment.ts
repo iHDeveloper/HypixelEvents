@@ -14,10 +14,11 @@ export const environment = {
     messagingSenderId: "791354586060",
     appId: "1:791354586060:web:412a16174ab392a4486369",
     measurementId: "G-HHYM4MMTS3",
-    emulator: {
-      host: 'localhost:8080',
-      ssl: false
-    }
+    // emulator: {
+    //   host: 'localhost:8080',
+    //   ssl: false
+    // }
+    emulator: undefined,
   }
 };
 

@@ -9,6 +9,11 @@
     </div>
     <div>
         <h1>v{{ version }}</h1>
-        <p class="last-updated">{{ lastUpdated }}</p>
+        <div class="tools">
+            <p class="last-updated">{{ lastUpdated }}</p>
+            <button class="settings" mat-button color="primary" (click)="onSettings()">
+                <mat-icon>settings</mat-icon>
+            </button>
+        </div>
     </div>
 </div>

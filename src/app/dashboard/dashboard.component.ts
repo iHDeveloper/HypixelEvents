@@ -7,6 +7,8 @@ import { CalendarService } from '../calendar.service';
 import { SkyblockDate } from '../api/skyblock.date';
 import { MonthType } from '../api/month.type';
 import { Calendar } from '../api/calendar';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { SettingsComponent } from '../settings/settings.component';
 
 type Months = {[key: number]: MonthType};
 
@@ -83,11 +85,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
   constructor(
+    private bottomSheet: MatBottomSheet,
     private service: CalendarService
   ) {
     this.sbUpdater = new Subject();
     this.sbUpdater.subscribe(date => this.sbUpdate(date));
-    this.subscription = service.calendar.subscribe(calendar => this.sbReset(calendar));
+    this.subscription = this.service.calendar.subscribe(calendar => this.sbReset(calendar));
   }
 
   ngOnInit() {
@@ -104,6 +107,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.updater.next();
     this.updater.complete();
+  }
+
+  onSettings() {
+    this.bottomSheet.open(SettingsComponent);
   }
 
   update() {
