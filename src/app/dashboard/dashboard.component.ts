@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, interval, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import * as Moment from 'moment';
+import * as moment from 'moment';
 import { environment } from 'src/environments/environment';
 import { CalendarService } from '../calendar.service';
 import { SkyblockDate } from '../api/skyblock.date';
@@ -67,6 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   time = '00:00:00 PM';
   version = environment.version;
 
+  lastUpdated = "Updating...";
   sbMonth = "Early Spring";
   sbDay = "1st";
   sbHour = 1;
@@ -106,7 +107,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   update() {
-    this.time = Moment().format('HH:mm:ss A');
+    this.time = moment().format('HH:mm:ss A');
   }
 
   sbUpdate(date?: SkyblockDate) {
@@ -198,6 +199,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     SECONDS_PER_YEAR = calendar.real.SECONDS_PER_YEAR
 
     this.months = calendar.months;
+    this.lastUpdated = moment().format("MMM Do YYYY - HH:mm:SS A");
     this.sbUpdater.next(calendar.lastLog);
   }
 
