@@ -2,7 +2,7 @@ import bent from 'bent';
 import moment from 'moment';
 import { info, debug } from 'console';
 
-const VERSION = "0.1.1"
+const VERSION = "0.1.2"
 
 export namespace HypixelAPI {
 
