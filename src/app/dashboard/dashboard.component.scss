@@ -3,9 +3,18 @@
     width: 100%;
     grid-template-columns: auto auto auto;
 
-    h1 {
+    h1, p {
         text-align: center;
         font-family: 'Courier New', Courier, monospace;
         font-size: 35px;
+        margin-bottom: 0;
+    }
+
+    .time {
+
+        .sb-time {
+            font-size: 20px;
+            margin-top: 5px;
+        }
     }
 }

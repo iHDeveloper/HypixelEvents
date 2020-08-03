@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as Moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -11,6 +12,7 @@ import * as Moment from 'moment';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   time = '00:00:00 PM';
+  version = environment.version;
   updater: Subject<void>;
 
   constructor() { }
