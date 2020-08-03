@@ -1,4 +1,6 @@
 # `Hypixel Events` - Track current events in realtime!
+[Discord](https://discord.gg/PYjh5xg)
+
 A simple website to track Hypixel events in real-time.
 **I don't recommend you to open the website on mobile**
 
