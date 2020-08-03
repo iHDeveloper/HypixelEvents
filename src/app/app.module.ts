@@ -18,7 +18,7 @@ import { CalendarService } from './calendar.service';
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireAnalyticsModule
   ],
   providers: [

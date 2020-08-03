@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, DocumentSnapshot } from '@angular/fire/firestore';
 import { Subject, Observable, Subscription } from 'rxjs';
 import { Event, DurationEvent } from './event';
 import { Calendar } from './api/calendar';
 import { firestore } from 'firebase';
-import { SkyblockDate } from './api/skyblock.date';
 import { MonthType } from './api/month.type';
 
 type Months = {[key: number]: MonthType};
@@ -28,10 +27,10 @@ export class CalendarService {
 
   public start() {
     const doc = this.firestore.collection('skyblock').doc<Calendar>('calendar');
-    this.updateSubscrption = doc.valueChanges().subscribe(
-      calendar => this.update(calendar),
+    this.updateSubscrption = doc.snapshotChanges().subscribe(
+      snapshot => this.update(snapshot.payload),
       error => console.error(error)
-    );
+    )
   }
 
   public stop() {
@@ -54,8 +53,9 @@ export class CalendarService {
     return this._durations;
   }
 
-  private update(calendar: Calendar) {
-    console.log('Updating calendar...');
+  private update(snapshot: DocumentSnapshot<Calendar>) {
+    console.log(`Updating calendar (${snapshot.metadata.fromCache ? 'cached' : 'not cached'})...`);
+    const calendar = snapshot.data();
 
     this._calendar.next(calendar);
     
