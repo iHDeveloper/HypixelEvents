@@ -4,7 +4,7 @@
     </div>
     <div class="time">
         <h1>{{ time }}</h1>
-        <p class="sb-time">Early Spring 7th 12:35pm Year 82</p>
+        <p class="sb-time">{{ sbMonth }} {{ sbDay }} {{ (sbHour <= 9) ? '0' + sbHour : sbHour }}:{{ (sbMinute <= 9) ? '0' + sbMinute : sbMinute }} {{ sbPM ? 'PM' : 'AM' }} Year {{ sbYear }}</p>
     </div>
     <div>
         <h1>v{{ version }}</h1>

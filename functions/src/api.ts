@@ -186,6 +186,14 @@ export namespace HypixelAPI {
             SECONDS_PER_HOUR: number,
             SECONDS_PER_MINUTE: number
         },
+        lastLog: {
+            year: number;
+            month: number;
+            day: number;
+            hour: number;
+            minute: number;
+            time: number;
+        },
         months: {[key: string]: MonthType},
         events: Event[],
         durations: DurationEvent[]
@@ -309,6 +317,7 @@ export namespace HypixelAPI {
         }
 
         return {
+            lastLog: rawCalendar.lastLog,
             real: {
                 SECONDS_PER_YEAR: SECONDS_PER_YEAR,
                 SECONDS_PER_MONTH: rawCalendar.real.SECONDS_PER_MONTH,

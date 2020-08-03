@@ -4,11 +4,16 @@ import { Subject, Observable, Subscription } from 'rxjs';
 import { Event, DurationEvent } from './event';
 import { Calendar } from './api/calendar';
 import { firestore } from 'firebase';
+import { SkyblockDate } from './api/skyblock.date';
+import { MonthType } from './api/month.type';
+
+type Months = {[key: number]: MonthType};
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarService {
+  private _calendar: Subject<Calendar>;
   private _events: Subject<Event>;
   private _durations: Subject<DurationEvent>;
   private updateSubscrption: Subscription;
@@ -16,6 +21,7 @@ export class CalendarService {
   constructor(
     private firestore: AngularFirestore
   ) {
+    this._calendar = new Subject();
     this._events = new Subject();
     this._durations = new Subject();
   }
@@ -31,8 +37,13 @@ export class CalendarService {
   public stop() {
     this.updateSubscrption.unsubscribe();
 
+    this._calendar.complete();
     this._events.complete();
     this._durations.complete();
+  }
+
+  public get calendar(): Observable<Calendar> {
+    return this._calendar;
   }
 
   public get events(): Observable<Event | undefined> {
@@ -45,6 +56,8 @@ export class CalendarService {
 
   private update(calendar: Calendar) {
     console.log('Updating calendar...');
+
+    this._calendar.next(calendar);
     
     // Clear the list
     this._events.next(undefined);
