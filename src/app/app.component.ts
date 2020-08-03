@@ -94,13 +94,12 @@ export class AppComponent implements AfterViewInit, RendererManager {
     this.context.restore();
     
     // Render durations
-    // TODO render more then 2 duration events
     const durationOrigin: Point = {
       x: (origin.x - (radius / 2) + (radius / 8)) + 15,
       y: (height - (radius / 2) + (radius / 8)) + 30,
     };
-    for (let i = 0; i < this.durations.length; i++) {
-      const duration = this.durations[i];
+    for (let i = 1; i <= this.durations.length; i++) {
+      const duration = this.durations[i - 1];
       this.context.save();
 
       this.printName(durationOrigin, duration.name);
@@ -110,7 +109,11 @@ export class AppComponent implements AfterViewInit, RendererManager {
 
       this.context.restore();
 
-      durationOrigin.x += 250;
+      durationOrigin.x += 270;
+      if (i % 2 === 0) {
+        durationOrigin.x -= 2 * 270;
+        durationOrigin.y += 100;
+      }
     }
 
     for (const event of this.events) {
